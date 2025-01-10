@@ -5,6 +5,9 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 
+import java.util.Arrays;
+import java.util.stream.IntStream;
+
 import static org.assertj.core.api.Assertions.assertThat;
 
 public class ReactorStepVerifierTests {
@@ -65,5 +68,18 @@ public class ReactorStepVerifierTests {
                     assertThat(error.getMessage()).isEqualTo("Something went wrong");
                 })
                 .verify();
+    }
+
+    @Test
+    public void convertToFluxTest() {
+        int[] array = {1,2,3,4,5};
+        IntStream intStream = Arrays.stream(array);
+
+        Flux<Integer> stream = Flux.fromStream(intStream.boxed());
+        StepVerifier.create(stream)
+                .expectNext(1)
+                .expectNext(2)
+                .expectNext(3,4,5)
+                .verifyComplete();
     }
 }
