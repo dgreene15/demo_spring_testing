@@ -2,6 +2,8 @@ package reactor;
 
 import org.junit.Test;
 import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
+
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
@@ -18,7 +20,8 @@ public class ReactorCacheTests {
         Mono<Void> cacheValue = Mono.fromRunnable(() -> cache.put("exampleKey", "exampleValue"));
         Mono<Object> retrieveOp = Mono.fromSupplier(() -> cache.get("exampleKey"));
 
-        cacheValue.then(retrieveOp)
-                .subscribe(result -> System.out.println("Retrieved: " + result));
+        StepVerifier.create(cacheValue.then(retrieveOp))
+                .expectNext("exampleValue")
+                .verifyComplete();
     }
 }
