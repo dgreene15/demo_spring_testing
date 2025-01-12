@@ -1,28 +1,61 @@
 package podam;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import uk.co.jemos.podam.api.PodamFactory;
 import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 import java.util.Arrays;
+import java.util.List;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @Slf4j
 public class PodamTests {
 
+    /**
+     * manufacturePojo is used to create a new object with random data
+     * doesn't fill all field, especially those requiring complex initialization
+     */
     @Test
-    public void podamTest() {
+    public void manufacturePojo() {
         PodamFactory factory = new PodamFactoryImpl();
-        TestPojo myPojo = factory.manufacturePojo(TestPojo.class);
+        PodamTestPojo myPojo = factory.manufacturePojo(PodamTestPojo.class);
 
-        log.info("id: {}; description: {}", myPojo.id, myPojo.description);
+        assertThat(myPojo.id).isGreaterThan(0);
+        assertThat(myPojo.description).isNotEmpty();
+        assertThat(myPojo.items).isNotEmpty();
+    }
 
-        TestPojo myPojo2 = factory.manufacturePojoWithFullData(TestPojo.class);
-        log.info("id: {}; description: {}", myPojo2.id, myPojo2.description);
+    /**
+     * manufacturePojoWithFullData is used to create a new object with all fields populated
+     * use most complex constructor and fill in even complex initialization fields
+     */
+    @Test
+    public void manufacturePojoWithFullData() {
+        PodamFactory factory = new PodamFactoryImpl();
+        PodamTestPojo myPojo = factory.manufacturePojoWithFullData(PodamTestPojo.class);
 
-        TestPojo myPojo3 = new TestPojo(1, "test", Arrays.asList("hi", "hi2"));
-        factory.populatePojo(myPojo3);
-        log.info("id: {}; description: {}", myPojo3.id, myPojo3.description);
+        assertThat(myPojo.id).isGreaterThan(0);
+        assertThat(myPojo.description).isNotEmpty();
+        assertThat(myPojo.items).isNotEmpty();
+    }
+
+    /**
+     * populatePojo is used to populate an existing object with random data
+     */
+    @Test
+    public void populatePojo() {
+        PodamFactory factory = new PodamFactoryImpl();
+        PodamTestPojo defaultPojo = new PodamTestPojo(1, "test", Arrays.asList("hi", "hi2"));
+        PodamTestPojo actual = factory.populatePojo(defaultPojo);
+
+        assertThat(actual.id).isGreaterThan(0);
+        assertThat(actual.description).isNotEmpty();
+        assertThat(actual.items).isNotEmpty();
     }
 }
+
 
