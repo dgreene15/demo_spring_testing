@@ -10,6 +10,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.junit.jupiter.api.Assertions;
 import java.util.Map;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.*;
 
 /**
@@ -71,7 +72,7 @@ public class MockitoBasicTests {
         String mapKeyValue = "myKey";
         Mockito.when(mapMock.get(mapKeyValue)).thenReturn("myValue");
 
-        System.out.println("Mocked Value: " + mapStorage.getValue(mapKeyValue));
+        assertThat(mapStorage.getValue(mapKeyValue)).isEqualTo("myValue");
 
         verify(mapMock).get(mapKeyValue);  //verifies map called with specific key passed
         verify(mapMock).get(Mockito.eq(mapKeyValue));
@@ -95,9 +96,9 @@ public class MockitoBasicTests {
         String mapKeyValue = "myKey";
         Mockito.when(mapMock.get(mapKeyValue)).thenReturn("myValue1", "myValue2", "myValue3");
 
-        System.out.println("Mocked Value1: " + mapStorage.getValue(mapKeyValue));
-        System.out.println("Mocked Value2: " + mapStorage.getValue(mapKeyValue));
-        System.out.println("Mocked Value3: " + mapStorage.getValue(mapKeyValue));
+        assertThat(mapStorage.getValue(mapKeyValue)).isEqualTo("myValue1");
+        assertThat(mapStorage.getValue(mapKeyValue)).isEqualTo("myValue2");
+        assertThat(mapStorage.getValue(mapKeyValue)).isEqualTo("myValue3");
 
         verify(mapMock, times(3)).get(mapKeyValue);
         verify(mapMock, atMost(3)).get(mapKeyValue);
@@ -119,9 +120,9 @@ public class MockitoBasicTests {
                 .thenReturn("myValue2")
                 .thenReturn("myValue3");
 
-        System.out.println("Mocked Value1: " + mapStorage.getValue(mapKeyValue));
-        System.out.println("Mocked Value2: " + mapStorage.getValue(mapKeyValue));
-        System.out.println("Mocked Value3: " + mapStorage.getValue(mapKeyValue));
+        assertThat(mapStorage.getValue(mapKeyValue)).isEqualTo("myValue1");
+        assertThat(mapStorage.getValue(mapKeyValue)).isEqualTo("myValue2");
+        assertThat(mapStorage.getValue(mapKeyValue)).isEqualTo("myValue3");
 
         verify(mapMock, times(3)).get(mapKeyValue);
         verify(mapMock, atMost(3)).get(mapKeyValue);
@@ -147,7 +148,7 @@ public class MockitoBasicTests {
     public void testAnyArguments() {
         Mockito.when(mapMock.get(anyString())).thenReturn("value:testAnyArguments()");
 
-        System.out.println("Mocked Value: " + mapStorage.getValue("anyKay"));
+        assertThat(mapStorage.getValue("anyKay")).isEqualTo("value:testAnyArguments()");
     }
 
     /**
@@ -179,7 +180,7 @@ public class MockitoBasicTests {
         try {
             mapStorage.getValue("anykey");
         } catch (RuntimeException e) {
-            System.out.println(e.getMessage()); // Output: Exception occurred
+            assertThat(e.getMessage()).isEqualTo("Exception occurred");
         }
     }
 }

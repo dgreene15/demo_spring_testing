@@ -8,6 +8,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.Map;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 import static org.mockito.BDDMockito.*;
 
@@ -37,7 +38,7 @@ public class BDDMockitoTests {
     public void basicsTests() {
         given(mapMock.get("myKey")).willReturn("myValue");
 
-        System.out.println("Mocked Value: " + mapStorage.getValue("myKey"));
+        assertThat(mapStorage.getValue("myKey")).isEqualTo("myValue");
 
         then(mapMock).should().get("myKey");
         then(mapMock).should().get(anyString());

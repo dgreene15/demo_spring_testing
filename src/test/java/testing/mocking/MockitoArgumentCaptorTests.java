@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Map;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.verify;
 
 /**
@@ -34,11 +35,10 @@ public class MockitoArgumentCaptorTests {
 
     @Test
     public void testArgumentCaptor() {
-
         mapStorage.add("hi", "hello");
         verify(mapMock).put(keyCaptor.capture(), valueCaptor.capture());
 
-        System.out.println("KeyCaptor: " + keyCaptor.getValue());
-        System.out.println("ValueCaptor: " + valueCaptor.getValue());
+        assertThat(keyCaptor.getValue()).isEqualTo("hi");
+        assertThat(valueCaptor.getValue()).isEqualTo("hello");
     }
 }

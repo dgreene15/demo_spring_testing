@@ -2,6 +2,8 @@ package testing.junit;
 
 import java.util.Optional;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.function.Executable;
@@ -9,6 +11,7 @@ import org.junit.jupiter.api.function.ThrowingSupplier;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assumptions.assumeTrue;
 import static org.junit.jupiter.api.Assumptions.assumingThat;
@@ -57,8 +60,13 @@ public class JUnit5JupiterBasicTests {
 
 	@Test
 	public void testExecutableMessage() {
-        assertTrue(true, printMessage());  //will always call print message
-		assertTrue(true, () -> printMessage()); //lazy, supplier, only called on error so not called
+		JUnit5BasicPojo value = new JUnit5BasicPojo(24);
+
+		assertTrue(true, () -> secondArgumentMethod(value)); //lazy, supplier, only called on error so not called
+		assertThat(value.getValue()).isEqualTo(24);
+
+		assertTrue(true, secondArgumentMethod(value));  //will always call print message
+		assertThat(value.getValue()).isEqualTo(42);
 	}
 
 	@Test
@@ -105,9 +113,9 @@ public class JUnit5JupiterBasicTests {
 		assertEquals(5, difference);
 	}
 
-	private String printMessage() {
-		System.out.println("...exception message");
-		return "...exception message";
+	private String secondArgumentMethod(JUnit5BasicPojo basicPojo) {
+		basicPojo.setValue(42);
+		return basicPojo.toString();
 	}
 
 	private String performAction(String input) throws Exception {
@@ -117,4 +125,10 @@ public class JUnit5JupiterBasicTests {
 		return "Processed " + input;
 	}
 
+}
+
+@Data
+@AllArgsConstructor
+class JUnit5BasicPojo {
+	Integer value = 24;
 }

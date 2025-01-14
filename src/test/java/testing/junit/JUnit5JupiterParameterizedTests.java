@@ -23,15 +23,16 @@ public class JUnit5JupiterParameterizedTests {
     @ParameterizedTest
     @ValueSource(ints = {1, 2, 3})
     void testValueSource(int num) {
-        System.out.println("Num: "+ num);
+        assertTrue(num > 0 && num < 4);
     }
 
     @ParameterizedTest
-    @CsvSource({"1, 2, 3", "4, 5, 6"})
+    @CsvSource({"1, 2, 3", "4, 5, 9"})
     public void testParameterizedCSV(int a, int b, int result) {
         Calculator cal = new Calculator();
         int calResult = cal.add(a, b);
-        System.out.println("a: " + a + "; " + "b: " + b + "; Result: " + calResult + "; Expected: " + result);
+
+        assertEquals(result, calResult);
     }
 
     @ParameterizedTest
@@ -43,6 +44,7 @@ public class JUnit5JupiterParameterizedTests {
             """)
     public void testAdd(int a, int b, int expected) {
         Calculator cal = new Calculator();
+
         assertEquals(expected, cal.add(a, b));
     }
 
