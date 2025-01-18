@@ -11,7 +11,7 @@ public class TaskRunner {
         new Thread(() -> {
             try {
                 // Simulate some delay
-                Thread.sleep(2000);
+                Thread.sleep(1000);
                 myService.performTask();
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();

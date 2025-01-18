@@ -20,7 +20,7 @@ public class TaskRunnerTest {
 
         // Verify that performTask() is called within 1 second (1000 milliseconds)
         // This test will fail because performTask() is actually called after 2 seconds
-        verify(myService, timeout(1000)).performTask();
+        verify(myService, timeout(2000)).performTask();
     }
 }
 

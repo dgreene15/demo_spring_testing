@@ -10,6 +10,5 @@ public class JsonAssertTests {
     void testJSONAssert() throws JSONException {
         String actual = "{id:123,name:\"John\"}";
         JSONAssert.assertEquals("{id:123,name:\"John\"}", actual, JSONCompareMode.LENIENT);
-
     }
 }
