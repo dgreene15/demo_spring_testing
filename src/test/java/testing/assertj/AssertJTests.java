@@ -38,6 +38,8 @@ public class AssertJTests {
                 .withMessage("Value must be non-negative")
                 .withMessageContaining("non-negative")
                 .withNoCause();
+
+        // withCauseExactlyInstanceOf: check if caused by another exception
     }
 
     /**

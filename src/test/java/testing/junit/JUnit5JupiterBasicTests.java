@@ -4,10 +4,7 @@ import java.util.Optional;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
-import org.junit.jupiter.api.function.ThrowingSupplier;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -18,22 +15,37 @@ import static org.junit.jupiter.api.Assumptions.assumingThat;
 
 /**
  * JUnit 5 Demo
+ * - JUnit 5 = Junit Platform (foundation)
+ * 		          + JUnit Jupiter (test engine)
+ * 		          + JUnit Vintage (runs JUnit 3 and 4 tests)
  * - org.unit.jupiter
  * - org.junit.jupiter.api.function.Executable: functional interface;
  *        - can throw any exception; void execute()
  *        - JUnit handles the exception
  * Assertions.assertThrows(<exception_class>, Executable)
  *
- * @BeforeEach
- * @BeforeAll: runs once per class, has to be static
+ * @BeforeEach; runs before each test method
+ * @BeforeAll; runs once per class, has to be static
  */
 
+@DisplayNameGeneration(DisplayNameGenerator.IndicativeSentences.class)
 public class JUnit5JupiterBasicTests {
+
+	@BeforeEach
+	public void beforeEach() {
+		//System.out.println("Before each test method");
+	}
+
+	@BeforeAll
+	public static void beforeAll() {
+		//System.out.println("Before all test methods");
+	}
 
 	/**
 	 * assertAll
 	 */
 	@Test
+	@DisplayName("Test assertAll")
 	public void assertAllTest() {
 		String myString = "Hello";
 
@@ -67,16 +79,6 @@ public class JUnit5JupiterBasicTests {
 
 		assertTrue(true, secondArgumentMethod(value));  //will always call print message
 		assertThat(value.getValue()).isEqualTo(42);
-	}
-
-	@Test
-	public void testPerformActionThrowsException() {
-
-		// Assert that the supplier throws the expected exception
-		Exception exception = assertThrows(Exception.class, () -> performAction(null));
-
-		// Optionally, verify the exception message
-		assertEquals("Input cannot be null", exception.getMessage());
 	}
 
 	@Test
@@ -125,6 +127,18 @@ public class JUnit5JupiterBasicTests {
 		return "Processed " + input;
 	}
 
+	@Nested
+	class AssertForExceptions {
+		@Test
+		public void testPerformActionThrowsException() {
+
+			// Assert that the supplier throws the expected exception
+			Exception exception = assertThrows(Exception.class, () -> performAction(null));
+
+			// Optionally, verify the exception message
+			assertEquals("Input cannot be null", exception.getMessage());
+		}
+	}
 }
 
 @Data
