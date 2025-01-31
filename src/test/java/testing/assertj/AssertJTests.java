@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
@@ -51,6 +52,19 @@ public class AssertJTests {
         List<String> expectedList = Arrays.asList("apple", "banana", "cherry");
 
         assertThat(actualList).containsExactlyElementsOf(expectedList);
+    }
+
+    @Test
+    public void assertNotBlank() {
+        String str = "Hello";
+        assertThat(str).isNotBlank();
+    }
+
+    @Test
+    public void assertContainsEntry() {
+        Map<Integer, String> map = Map.of(0, "apple", 1, "banana", 2, "cherry");
+        assertThat(map).containsEntry(0, "apple");
+        assertThat(map).containsOnlyKeys(0, 1, 2);
     }
 
     private void doSomething(int value) {

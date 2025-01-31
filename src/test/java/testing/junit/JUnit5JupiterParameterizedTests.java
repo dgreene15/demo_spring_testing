@@ -1,5 +1,6 @@
 package testing.junit;
 
+import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.*;
 
@@ -80,10 +81,51 @@ public class JUnit5JupiterParameterizedTests {
         );
     }
 
+    @ParameterizedTest
+    @EnumSource(DayOfWeek.class) // This will pass all enum constants as arguments
+    void testDayOfWeek(DayOfWeek day) {
+        assertNotNull(day);
+    }
+
+    @ParameterizedTest
+    @ArgumentsSource(CustomArgumentsProvider.class) // Use the custom ArgumentsProvider
+    void testWithCustomArguments(int id, String name) {
+        // Test logic: Verify that the name corresponds to the correct ID
+        switch (id) {
+            case 1:
+                assertEquals("apple", name);
+                break;
+            case 2:
+                assertEquals("banana", name);
+                break;
+            case 3:
+                assertEquals("cherry", name);
+                break;
+            default:
+                throw new IllegalArgumentException("Invalid ID: " + id);
+        }
+    }
+
 }
 
 class Calculator {
     public int add(int a, int b) {
         return a + b;
+    }
+}
+
+enum DayOfWeek {
+    MONDAY, TUESDAY, WEDNESDAY, THURSDAY, FRIDAY, SATURDAY, SUNDAY
+}
+
+class CustomArgumentsProvider implements ArgumentsProvider {
+
+    @Override
+    public Stream<? extends Arguments> provideArguments(ExtensionContext context) {
+        return Stream.of(
+                Arguments.of(1, "apple"),
+                Arguments.of(2, "banana"),
+                Arguments.of(3, "cherry")
+        );
     }
 }

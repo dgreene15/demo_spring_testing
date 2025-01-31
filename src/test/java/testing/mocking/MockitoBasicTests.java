@@ -47,6 +47,7 @@ import static org.mockito.Mockito.*;
  *      Mockito.isNull()
  *      Mockito.isNotNull()
  *      times(x)
+ *  - ArgumentMatchers have to be used for all arguments
  */
 @ExtendWith(MockitoExtension.class)
 public class MockitoBasicTests {
