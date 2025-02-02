@@ -1,4 +1,4 @@
-package testing.skyscreamer_jsonassert;
+package testing.jsonassert;
 
 import org.json.JSONException;
 import org.junit.jupiter.api.Test;

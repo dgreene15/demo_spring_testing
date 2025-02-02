@@ -1,5 +1,6 @@
 package testing.junit;
 
+import java.time.Duration;
 import java.util.Optional;
 
 import lombok.AllArgsConstructor;
@@ -138,6 +139,28 @@ public class JUnit5JupiterBasicTests {
 			// Optionally, verify the exception message
 			assertEquals("Input cannot be null", exception.getMessage());
 		}
+	}
+
+	@Test
+	void testWithAssertAllAndAssertTimeout() {
+		assertAll("Test all assertions within a specified timeout",
+				() -> assertTimeout(Duration.ofSeconds(1), () -> {
+					Thread.sleep(500);
+				}, "Task exceeded the time limit."),
+				() -> assertTimeout(Duration.ofSeconds(2), () -> {
+					Thread.sleep(1500);
+				}, "Second task exceeded the time limit.")
+		);
+		// the Thread.sleep throws exception, but JUnit handles it
+	}
+
+	@Test
+	void testWithMessageSupplier() {
+		int expected = 42;
+		int actual = 42;
+
+		assertEquals(expected, actual, () -> "Expected value " + expected + " but got " + actual);
+		// only runs supplier if assertion fails
 	}
 }
 
