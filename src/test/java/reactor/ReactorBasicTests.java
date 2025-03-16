@@ -80,6 +80,29 @@ public class ReactorBasicTests {
         assertThat(myElement.getName()).isEqualTo("hi");
     }
 
+    @Test
+    public void testSwitchOnEmpty() {
+        Flux<Integer> actual = Flux.<Integer>empty()
+                .switchIfEmpty(Flux.just(1, 2, 3, 4));
+
+        StepVerifier.create(actual)
+                .expectNext(1, 2, 3, 4)
+                .verifyComplete();
+    }
+
+    /**
+     * Mono.defer
+     * Mono that only generates its value (or error) when it is subscribed to.
+     */
+    @Test
+    public void testMonoDefer() {
+        Mono<Integer> actual = Mono.defer(() -> Mono.just(1));
+
+        StepVerifier.create(actual)
+                .expectNext(1)
+                .verifyComplete();
+    }
+
     static class MyElement {
         String firstName;
         public void setName(String name) {
