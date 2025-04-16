@@ -8,6 +8,8 @@ import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.junit.jupiter.api.Assertions;
+
+import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -183,5 +185,16 @@ public class MockitoBasicTests {
         } catch (RuntimeException e) {
             assertThat(e.getMessage()).isEqualTo("Exception occurred");
         }
+    }
+
+    @Test
+    public void testVerifyNoInteractions() {
+        // Create a mock list
+        List<String> mockedList = Mockito.mock(List.class);
+
+        // Do not interact with the mock at all
+
+        // Verify that there were no interactions
+        verifyNoInteractions(mockedList);
     }
 }

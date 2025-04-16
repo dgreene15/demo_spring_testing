@@ -7,8 +7,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
+import static org.assertj.core.api.Assertions.*;
 
 /**
  * AssertJ
@@ -41,6 +40,20 @@ public class AssertJTests {
                 .withNoCause();
 
         // withCauseExactlyInstanceOf: check if caused by another exception
+    }
+
+    @Test
+    public void testNoExceptions() {
+        assertThatCode(() -> {
+            // Code that should not throw any exceptions
+            int result = 10 / 2; // Example of code that won't throw an exception
+            System.out.println("Result: " + result);
+        }).doesNotThrowAnyException();
+
+        // also
+        //.isInstanceOf(ArithmeticException.class); //Assert that the correct exception is thrown.
+        // .doesNotThrowAnyException();
+        // .isInstanceOf(NullPointerException.class);
     }
 
     /**
